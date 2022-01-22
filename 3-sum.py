@@ -6,8 +6,9 @@ class Solution:
         
         nums.sort()
         output = []
+        
         for i, a in enumerate(nums):
-            if i > 0 and nums[i-1] == a:
+            if i > 0 and a == nums[i-1]:
                 continue
             b, c = i+1, len(nums)-1
             while b < c:
@@ -18,9 +19,8 @@ class Solution:
                     c-=1
                 else:
                     output.append([a, nums[b], nums[c]])
-                    b+=1
-                    c-=1
+                    b, c = b+1, c-1
                     while b < c and nums[b] == nums[b-1]:
                         b+=1
-                            
+                        
         return output 
