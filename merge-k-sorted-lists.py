@@ -6,59 +6,53 @@
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         
-        # Approach 1: Min Heap
-        # O(n*logk) time O(k) space where k = len(lists) and n = len(each list)
+        # O(nlogk) time O(n) space where k = length of lists and n = number of nodes in each list
         
-        heap = [ (l.val, i) for i, l in enumerate(lists) if l ]
+        # Approach 1: Min heap
+        heap = [(l.val, i) for i, l in enumerate(lists) if l]
         heapq.heapify(heap)
-        prehead = curr = ListNode()
+        prehead = ptr = ListNode()
         
         while heap:
-            val, idx = heapq.heappop(heap)
-            curr.next = ListNode(val)
-            curr = curr.next 
+            curr, idx = heapq.heappop(heap)
+            ptr.next = ListNode(curr)
+            ptr = ptr.next
             
             node = lists[idx] = lists[idx].next 
             if node:
                 heapq.heappush(heap, (node.val, idx))
                 
-        return prehead.next
-        
+        return prehead.next 
+    
         # Approach 2: Divide & Conquer
-        # O(n*logk) time O(1) space where n = len(lists) and k = len(each list)
-        
-        def mergeTwoSortedLists(list1, list2):
-        
+        def mergeTwoLists(list1, list2):
             prehead = curr = ListNode()
-
             while list1 and list2:
-                val1 = list1.val
+                val1 = list1.val 
                 val2 = list2.val 
-
                 if val1 <= val2:
-                    curr.next = list1 
-                    list1 = list1.next if list1 else None
+                    curr.next = list1
+                    list1 = list1.next 
                 else:
-                    curr.next = list2 
-                    list2 = list2.next if list2 else None
+                    curr.next = list2
+                    list2 = list2.next
                 curr = curr.next
 
             if list1:
                 curr.next = list1
-            if list2:
+            elif list2:
                 curr.next = list2
-            return prehead.next
+
+            return prehead.next 
         
-        if not lists:
-            return None
-        while len(lists) >= 2:
-            mergedList = []
+        while len(lists) > 1:
+            mergedLists = []
             for i in range(0, len(lists), 2):
                 list1 = lists[i]
                 list2 = lists[i+1] if i+1 < len(lists) else None
-                mergedList.append(mergeTwoSortedLists(list1, list2))
-            lists = mergedList
-            
-        return lists[0]
                 
+                mergedLists.append(mergeTwoLists(list1, list2))
+            lists = mergedLists
             
+        return lists[0] if lists else None
+        
