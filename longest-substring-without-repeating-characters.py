@@ -8,14 +8,15 @@ class Solution:
         left, right = 0, 0
         length = 0
         while right < len(s):
-            if s[right] not in charDict:
+            currChar = s[right]
+            if currChar not in charDict:
                 length = max(length, right-left+1)
-            elif charDict[s[right]] >= left:
-                left = charDict[s[right]] + 1
+            elif charDict.get(currChar) >= left:
+                left = charDict.get(currChar) + 1
                 length = max(length, right-left)
             else:
-                length = max(length, right-left+1)  
-            charDict[s[right]] = right
+                length = max(length, right-left+1)
+            charDict[currChar] = right
             right+=1
             
         return length
