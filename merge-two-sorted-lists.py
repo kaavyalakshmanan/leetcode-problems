@@ -10,21 +10,20 @@ class Solution:
         # 2 pointers
         
         prehead = curr = ListNode()
-        
         while list1 and list2:
-            val1 = list1.val
+            val1 = list1.val 
             val2 = list2.val 
-            
             if val1 <= val2:
-                curr.next = list1 
-                list1 = list1.next if list1 else None
+                curr.next = list1
+                list1 = list1.next 
             else:
-                curr.next = list2 
-                list2 = list2.next if list2 else None
+                curr.next = list2
+                list2 = list2.next
             curr = curr.next
-            
+        
         if list1:
             curr.next = list1
-        if list2:
+        elif list2:
             curr.next = list2
-        return prehead.next
+            
+        return prehead.next 
