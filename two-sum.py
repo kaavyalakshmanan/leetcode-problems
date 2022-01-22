@@ -5,8 +5,7 @@ class Solution:
         # One pass hash
         
         compDict = {}
-        for i in range(len(nums)):
-            if nums[i] not in compDict:
-                compDict[target-nums[i]] = i
-            else:
-                return [compDict[nums[i]], i]
+        for i, num in enumerate(nums):
+            if num in compDict:
+                return [i, compDict.get(num)]
+            compDict[target-num] = i
