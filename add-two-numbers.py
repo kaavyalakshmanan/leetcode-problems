@@ -6,19 +6,17 @@
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         
-        # O(max(m,n)) time O(max(m,n)+1) space where m = len(l1) n = len(l2)
-        # 2 pointers
+        # O(max(m,n)) time O(max(m,n)+1) space
+        # 2 pointers 
         
+        curr = prehead = ListNode()
         carry = 0
-        prehead = curr = ListNode()
-        
         while l1 or l2:
-            val1 = l1.val if l1 else 0
-            val2 = l2.val if l2 else 0
+            val1, val2 = l1.val if l1 else 0, l2.val if l2 else 0
             currSum = val1 + val2 + carry
             carry = currSum // 10
             
-            if currSum < 10:
+            if currSum <= 9:
                 curr.next = ListNode(currSum)
             else:
                 curr.next = ListNode(currSum % 10)
@@ -29,4 +27,6 @@ class Solution:
         if carry:
             curr.next = ListNode(carry)
             
-        return prehead.next
+        return prehead.next 
+            
+        
