@@ -5,30 +5,27 @@ class Solution:
         """
         
         # O(n) time O(1) space
-        # Pointers
         
-        # Step 1: Find strictly decreasing subsequence
-        ptr1 = len(nums)-2
-        while ptr1 >= 0 and nums[ptr1] >= nums[ptr1+1]:
-            ptr1-=1
-                
-        # Step 2: Swap with next biggest
-        ptr2 = len(nums)-1
-        if ptr1 >= 0:
-            while ptr2 > ptr1 and nums[ptr2] <= nums[ptr1]:
-                ptr2-=1
-                
-            nums[ptr1], nums[ptr2] = nums[ptr2], nums[ptr1]
-            ptr2 = len(nums)-1
-            
-        # Step 3: Reverse strictly decreasing subsequence
-        ptr1+=1
-        while ptr1 < ptr2:
-            nums[ptr1], nums[ptr2] = nums[ptr2], nums[ptr1]
-            ptr1+=1
-            ptr2-=1
+        # Find strictly decreasing subsequence
+        i = len(nums)-2
+        while i >= 0 and nums[i] >= nums[i+1]:
+            i-=1
+        
+        # Swap with next biggest
+        if i >= 0:
+            j = len(nums)-1
+            while j > i and nums[j] <= nums[i]:
+                j-=1
+            if i != j:
+                nums[i], nums[j] = nums[j], nums[i]
+        i+=1
+        
+        # Reverse strictly decreasing subsequence
+        j = len(nums)-1
+        while i < j:
+            nums[i], nums[j] = nums[j], nums[i]
+            i+=1
+            j-=1
             
         return nums
-            
-                
         
