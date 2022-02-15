@@ -1,12 +1,16 @@
 class Solution:
-    def canJump(self, nums: List[int]) -> bool:
+    def jump(self, nums: List[int]) -> int:
         
-        # O(n) time O(1) space
-        # Bottom Up DP
+        left, right = 0, 0
+        output = 0
         
-        jumpIdx = len(nums)-1
-        for i in range(len(nums)-2, -1, -1):
-            if nums[i] + i >= jumpIdx:
-                jumpIdx = i
-        
-        return jumpIdx == 0
+        while right < len(nums)-1:
+            jumpDist = 0
+            for i in range(left, right+1):
+                jumpDist = max(jumpDist, nums[i]+i)
+            output+=1
+            left = right+1
+            right = jumpDist
+            
+        return output 
+            
