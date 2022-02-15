@@ -6,32 +6,32 @@
 class Solution:
     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         
-        # O(n) time since we process each node exactly twice O(1) space
-        # Pointers
+        # O(n) time O(1) space
         
-        prehead = ListNode(0, head)
-        prevStart = prehead
-        start = end = prehead.next 
-        
+        prehead = start = end = ListNode(0, head)
         while end:
             ctr = k
-            while ctr > 1 and end:
+            while ctr > 0:
+                if not end.next:
+                    break
                 end = end.next 
                 ctr-=1
-            if end:
-                nextStart = end.next
-                prev, curr = start, start.next
-                while curr != nextStart:
-                    nxt = curr.next 
-                    curr.next = prev
-                    prev, curr = curr, nxt
-                prevStart.next = end
-                prevStart = start
-                start.next = nextStart
-                start = nextStart
-                end = start
-                
-            else: 
-                break
-                
+            if ctr > 0:
+                return prehead.next 
+            temp = end.next 
+            pA = start.next
+            pB = pA.next
+            pA.next = None
+            while pA != end:
+                pC = pB.next 
+                pB.next = pA
+                pA, pB = pB, pC
+            startTemp = start.next 
+            start.next = end
+            start = startTemp
+            start.next = temp
+            end = start
+            
         return prehead.next 
+                
+        
