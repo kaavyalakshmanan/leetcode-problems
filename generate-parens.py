@@ -3,15 +3,15 @@ class Solution:
         
         # Backtracking
         
-        def backtrack(left, right, curr):
-            if left == 0 and right == 0:
-                output.append(curr)
+        def backtracking(numLeft, numRight, currStr):
+            if numLeft == 0 and numRight == 0:
+                output.append(currStr)
                 return
-            if left > 0:
-                backtrack(left-1, right, curr+"(")
-            if left < right:
-                backtrack(left, right-1, curr+")")
-                
+            if numLeft > 0:
+                backtracking(numLeft-1, numRight, currStr+"(")
+            if numLeft < numRight:
+                backtracking(numLeft, numRight-1, currStr+")")
+            
         output = []
-        backtrack(n, n, "")
-        return output
+        backtracking(n, n, "")
+        return output 
