@@ -1,26 +1,31 @@
 import random
+
 class Solution:
 
     def __init__(self, w: List[int]):
         
-        self.arr = [0] * len(w)
-        totalSum = sum(w)
-        for i, num in enumerate(w):
-            self.arr[i] = num / totalSum
+        self.prefixSums = []
+        cumSum = 0
+        for weight in w:
+            cumSum += weight
+            self.prefixSums.append(cumSum)
+        self.totalSum = cumSum
+            
 
     def pickIndex(self) -> int:
         
-        # O(n) time O(n) space
-        # Optimize using binary search O(logn) time O(n) space
-              
-        randNum = random.uniform(0,1) 
+        target = self.totalSum * random.random()
+        print(random.random())
+        lo, hi = 0, len(self.prefixSums)
         
-        prev = 0
-        for i in range(len(self.arr)):
-            if randNum >= prev and randNum < self.arr[i] + prev:
-                return i
-            prev += self.arr[i] 
-        
+        while lo < hi:
+            mid = (hi + lo) // 2
+            if target > self.prefixSums[mid]:
+                lo = mid + 1
+            else:
+                hi = mid
+                
+        return lo
 
 
 # Your Solution object will be instantiated and called as such:
