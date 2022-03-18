@@ -41,24 +41,28 @@
 #        :rtype List[NestedInteger]
 #        """
 
+import numpy as np
+
 class Solution:
     def depthSum(self, nestedList: List[NestedInteger]) -> int:
         
-        # O(n) time O(d) space
-        # DFS 
+        # O(n) time O(n) space
+        # DFS
         
         def dfs(nestedList, depth):
-            total = 0
+            
+            res = 0
+            
             for nested in nestedList:
                 if nested.isInteger():
-                    total += (nested.getInteger() * depth)
+                    res += (nested.getInteger() * depth)
                 else:
-                    total += dfs(nested.getList(), depth+1)
-
-            return total
+                    res+= dfs(nested.getList(), depth+1)
+                    
+            return res
+            
             
         
-        
         return dfs(nestedList, 1)
-        
+            
         
