@@ -10,26 +10,31 @@ class Node:
 class Solution:
     def treeToDoublyList(self, root: 'Optional[Node]') -> 'Optional[Node]':
         
-        # O(n) time O(n) space worst case and logn best case if tree is balanced
-        
-        def inorder(node):
-            nonlocal first, last
-            if node:
-                inorder(node.left)
-                
-                if last:
-                    last.right = node
-                    node.left = last
-                else:
-                    first = node
-                last = node
-                inorder(node.right)
-        
         if not root:
             return None
         
         first, last = None, None
-        inorder(root)
-        first.left = last
+        
+        def dfs(node):
+            nonlocal first, last
+            
+            if not node:
+                return
+            
+            dfs(node.left)
+            if last:
+                last.right = node
+                node.left = last
+            else:
+                first = node
+            last = node
+            dfs(node.right)
+            
+        dfs(root)
+        
         last.right = first
+        first.left = last
+        
         return first
+            
+            
