@@ -7,36 +7,30 @@
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
         
-        # O(n) time O(n) space
-        # Inorder traversal
+        # O(nlogn) time O(n) space
         
-        nodes = {}
-        output = []
+        colWise = defaultdict(list)
         
-        def inorder(node, col, row):
+        def dfs(node, row, col):
             if not node:
                 return
             
-            inorder(node.left, col-1, row+1)
-            if col not in nodes:
-                nodes[col] = [[row, node.val]]
-            else:
-                nodes[col].append([row, node.val])
-            inorder(node.right, col+1, row+1)
+            dfs(node.left, row+1, col-1)
+            colWise[col].append([row, node.val])
+            dfs(node.right, row+1, col+1)
             
-        inorder(root, 0, 0)
+        dfs(root, 0, 0)
         
-        nodes = sorted(nodes.items())
-        for idx, val in nodes:
+        colWise = sorted(colWise.items())
+        output = []
+        
+        for k, v in colWise:
             curr = []
-            val.sort()
-            for item in val:
+            v = sorted(v)
+            for item in v:
                 curr.append(item[1])
             output.append(curr)
             
         return output 
-                
-                
-                
-                
-                
+        
+        
