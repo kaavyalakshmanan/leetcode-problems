@@ -1,30 +1,30 @@
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-from collections import defaultdict
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def verticalOrder(self, root: TreeNode) -> List[List[int]]:
+    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         
-        if root is None:
+        # O(n) time O(n) space
+        # BFS
+        
+        if not root:
             return []
-
-        colTable = defaultdict(list)
-        minCol = maxCol = 0
-        queue = deque([(root, 0)])
-
-        while queue:
-            node, col = queue.popleft()
-
-            if node is not None:
-                colTable[col].append(node.val)
-                minCol = min(minCol, col)
-                maxCol = max(maxCol, col)
-
-                queue.append((node.left, col - 1))
-                queue.append((node.right, col + 1))
         
-       
-        return [colTable[x] for x in range(minCol, maxCol + 1)]
+        colWise = defaultdict(list)
+        q = collections.deque([(root, 0)])
+        minCol, maxCol = 0, 0
+        
+        while q:
+            currNode, currCol = q.popleft()
+            minCol = min(minCol, currCol)
+            maxCol = max(maxCol, currCol)
+            colWise[currCol].append(currNode.val)
+            if currNode.left:
+                q.append((currNode.left, currCol-1))
+            if currNode.right:
+                q.append((currNode.right, currCol+1))
+                
+        return [colWise[x] for x in range(minCol, maxCol+1)]
