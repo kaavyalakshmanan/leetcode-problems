@@ -6,7 +6,9 @@ class Solution:
         
         if s == s[::-1]:
             return True
+        
         l, r = 0, len(s)-1
+        
         while l <= r:
             if s[l] == s[r]:
                 l+=1
@@ -14,7 +16,7 @@ class Solution:
             else:
                 removeL = s[:l] + s[l+1:]
                 removeR = s[:r] + s[r+1:]
-                return removeL == removeL[::-1] or removeR == removeR[::-1]
                 
-            
-        
+                if removeL == removeL[::-1] or removeR == removeR[::-1]:
+                    return True
+                return False
