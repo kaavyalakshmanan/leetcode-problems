@@ -1,25 +1,17 @@
 class Solution:
     def findBuildings(self, heights: List[int]) -> List[int]:
         
-        # O(n) time O(n) space
-        # 2 pointers
+        # O(n) time O(1) space
+        # Monotonic stack with space optimization
         
-        output = [len(heights)-1]
-        largest = len(heights)-1
+        length = len(heights)-1
+        output = [length]
+        maxHeight = heights[length]
         
-        for i in range(len(heights)-2, -1, -1):
-            if heights[i] > heights[largest]:
+        for i in range(length-1, -1, -1):
+            currHeight = heights[i]
+            if currHeight > maxHeight:
                 output.append(i)
-                largest = i
-                
-        smallest, largest = 0, len(output)-1
-        while smallest < largest:
-            output[smallest], output[largest] = output[largest], output[smallest]
-            smallest+=1
-            largest-=1
-            
+                maxHeight = currHeight
         
-        return output 
-            
-        
-        
+        return output[::-1]
