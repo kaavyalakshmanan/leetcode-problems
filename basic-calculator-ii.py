@@ -1,36 +1,35 @@
 class Solution:
     def calculate(self, s: str) -> int:
         
-        # O(n) time O(n) space
+        # O(n) time O(n) space 
+        # Stack
         
         stack = []
-        currDigit, currChar, currOp = 0, '', '+'
-        length = len(s)
+        currDigit, currOp = 0, '+'
         
-        def div(n1, n2):
-            if n1 > 0 or n1 % n2 == 0:
-                return n1 // n2
-            return (n1 // n2) + 1
+        def div(num1, num2):
+            if num1 > 0 or num1 % num2 == 0:
+                return num1 // num2
+            else:
+                return (num1 // num2) + 1
         
-        for i in range(length):
-            currChar = s[i]
-            if currChar.isdigit():
-                currDigit = (currDigit * 10) + int(currChar)
-            if (not currChar.isdigit() and not currChar.isspace()) or i == length-1:
+        for i, c in enumerate(s):
+            if c.isdigit():
+                currDigit = (currDigit * 10) + int(c)
+            if (not c.isdigit() and not c.isspace()) or i == len(s)-1:
                 if currOp == '+':
                     stack.append(currDigit)
                 elif currOp == '-':
                     stack.append(-currDigit)
                 elif currOp == '*':
-                    stack[-1] = stack[-1] * currDigit
+                    stack[-1] *= currDigit
                 else:
                     stack[-1] = div(stack[-1], currDigit)
+                currOp = c
                 currDigit = 0
-                currOp = currChar
-        
+                    
         res = 0
         while stack:
             res += stack.pop()
             
         return res
-            
