@@ -1,31 +1,38 @@
-import random
-
 class Solution:
+    
 
     def __init__(self, w: List[int]):
+        # O(n) time O(n) space
         
         self.prefixSums = []
         cumSum = 0
         for weight in w:
             cumSum += weight
             self.prefixSums.append(cumSum)
+            
         self.totalSum = cumSum
             
+        
+        
 
     def pickIndex(self) -> int:
         
-        target = self.totalSum * random.random()
-        print(random.random())
-        lo, hi = 0, len(self.prefixSums)
+        # O(logn) time O(1) space
         
-        while lo < hi:
-            mid = (hi + lo) // 2
-            if target > self.prefixSums[mid]:
-                lo = mid + 1
-            else:
-                hi = mid
+        target = random.random() * self.totalSum
+        prev = 0
+        l, r = 0, len(self.prefixSums)-1
+        
+        while l <= r:
+            m = (r+l)//2
+            if target > self.prefixSums[m]:
+                l = m+1
+            elif target < self.prefixSums[m]:
+                r = m-1
                 
-        return lo
+        return l
+        
+        
 
 
 # Your Solution object will be instantiated and called as such:
