@@ -1,29 +1,35 @@
 class Solution:
     def minAddToMakeValid(self, s: str) -> int:
         
-        # O(n) time O(n) space
-        # Using stack
-        
-        stack = []
-        res = 0
-        for c in s:
-            if c =='(':
-                stack.append(c)
-            else:
-                if stack and stack[-1] == "(":
-                    stack.pop()
-                else:
-                    stack.append(c)
-        
-        return len(stack)
-
         # O(n) time O(1) space
-        # Without stack
+        # Iterate forwards and backwards
+         
+        left, right = 0, 0
+        count = 0
         
-        res, bal = 0, 0
-        for c in s:
-            bal+=1 if c == '(' else -1
-            if bal == -1:
-                res+=1
-                bal+=1
-        return res + bal
+        for i in range(len(s)):
+            currChar = s[i]
+            if currChar == "(":
+                left+=1
+            else:
+                right+=1
+            if left == right:
+                left, right = 0, 0
+            if right > left:
+                count += 1
+                right-=1
+        
+        left, right = 0, 0
+        for i in range(len(s)-1, -1, -1):
+            currChar = s[i]
+            if currChar == "(":
+                left+=1
+            else:
+                right+=1
+            if left == right:
+                left, right = 0, 0
+            elif left > right:
+                count += 1
+                left-=1
+                
+        return count
