@@ -4,18 +4,20 @@ class Solution:
         # O(logn) time O(logn) space
         # Divide and Conquer
         
+        def recursiveHelper(x, n):
+            if n == 0:
+                return 1
+
+            res = self.myPow(x, n//2)
+            res *= res
+            if n % 2 == 1:
+                res *= x
+
+            return res
+        
         if x == 0:
             return 0
         
-        def recursiveHelper(n):
-    
-            if n == 0:
-                return 1
-            
-            res = recursiveHelper(n // 2)
-            res *= res
-            
-            return res * x if n % 2 else res
         
-        res = recursiveHelper(abs(n)) 
-        return res if n >= 0 else 1 / res
+        res = recursiveHelper(x, abs(n)) 
+        return 1/res if n < 0 else res
