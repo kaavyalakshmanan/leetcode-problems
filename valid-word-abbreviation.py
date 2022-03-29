@@ -4,27 +4,29 @@ class Solution:
         # O(n) time O(1) space
         # 2 pointers
         
-        seenDigit = False
+        isDigit = False
         i, j = 0, 0
         
         while i < len(word) and j < len(abbr):
-            if word[i] == abbr[j]:
-                seenDigit = False
+            if not abbr[j].isdigit():
+                isDigit = False
+                if word[i] != abbr[j]:
+                    return False
                 i+=1
                 j+=1
-            elif abbr[j].isdigit():
+            else:
+                if isDigit:
+                    return False
                 if abbr[j] == '0':
                     return False
-                if seenDigit:
-                    return False
-                seenDigit = True
-                idx = ''
+                isDigit = True
+                digit = ''
                 while j < len(abbr) and abbr[j].isdigit():
-                    idx += abbr[j]
+                    digit += abbr[j]
                     j+=1
-                idx = int(idx)
-                i += idx
-            else:
-                return False
-                
+                i += int(digit)
+                if i > len(word):
+                    return False
+            
+        
         return i == len(word) and j == len(abbr)
