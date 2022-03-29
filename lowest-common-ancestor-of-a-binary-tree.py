@@ -9,36 +9,28 @@ class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         
         # O(n) time O(n) space
-        # Use a parent dict to take place of haing parent pointer
-        # Use ancestors set to take place of p and q pointers
+        # BFS
         
-        stack = [root]
         parents = { root: None }
-        ancestors = set()
+        queue = collections.deque([root])
+        anc = set()
         
-        # Get all the ancestors for p and q
         while p not in parents or q not in parents:
-            node = stack.pop()
+            node = queue.popleft()
             if node.left:
-                stack.append(node.left)
                 parents[node.left] = node
+                queue.append(node.left)
             if node.right:
-                stack.append(node.right)
                 parents[node.right] = node
+                queue.append(node.right)
                 
-        # Get all p's ancestors
         while p:
-            ancestors.add(p)
+            anc.add(p)
             p = parents[p]
-            
-        # Get all q's ancestors
-        while q not in ancestors:
+        
+        while q not in anc:
             q = parents[q]
             
         return q
-                
-        
             
-        
-        
             
