@@ -12,19 +12,20 @@ class Solution:
         
         if not root:
             return []
-        
         colWise = defaultdict(list)
         q = collections.deque([(root, 0)])
+        output = []
         minCol, maxCol = 0, 0
         
         while q:
-            currNode, currCol = q.popleft()
-            minCol = min(minCol, currCol)
-            maxCol = max(maxCol, currCol)
-            colWise[currCol].append(currNode.val)
-            if currNode.left:
-                q.append((currNode.left, currCol-1))
-            if currNode.right:
-                q.append((currNode.right, currCol+1))
-                
+            node, col = q.popleft()
+            minCol = min(minCol, col)
+            maxCol = max(maxCol, col)
+            colWise[col].append(node.val)
+            if node.left:
+                q.append((node.left, col-1))
+            if node.right:
+                q.append((node.right, col+1))
+            
         return [colWise[x] for x in range(minCol, maxCol+1)]
+            
