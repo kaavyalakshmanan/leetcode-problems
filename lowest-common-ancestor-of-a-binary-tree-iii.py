@@ -12,14 +12,12 @@ class Solution:
     def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
         
         # O(logn) time O(1) space
-        # 2 pointers
+        # Binary Search
         
-        pPtr, qPtr = p, q
-        ctr = 0
-        while pPtr != qPtr:
-            ctr+=1
-            pPtr = pPtr.parent if pPtr.parent else q
-            qPtr = qPtr.parent if qPtr.parent else p
+        a, b = p, q
+        
+        while a != b:
+            a = a.parent if a.parent else q
+            b = b.parent if b.parent else p
             
-        print(ctr)
-        return pPtr
+        return a
