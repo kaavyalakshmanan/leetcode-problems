@@ -2,21 +2,19 @@ class Solution:
     def validPalindrome(self, s: str) -> bool:
         
         # O(n) time O(1) space
-        # 2 pointers
+        # 2 pointers 
         
         if s == s[::-1]:
             return True
         
-        l, r = 0, len(s)-1
+        left, right = 0, len(s)-1
         
-        while l <= r:
-            if s[l] == s[r]:
-                l+=1
-                r-=1
+        while left <= right:
+            if s[left] == s[right]:
+                left+=1
+                right-=1
             else:
-                removeL = s[:l] + s[l+1:]
-                removeR = s[:r] + s[r+1:]
+                removeLeft = s[:left] + s[left+1:]
+                removeRight = s[:right] + s[right+1:]
                 
-                if removeL == removeL[::-1] or removeR == removeR[::-1]:
-                    return True
-                return False
+                return removeLeft == removeLeft[::-1] or removeRight == removeRight[::-1]
