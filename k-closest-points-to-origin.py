@@ -2,27 +2,29 @@ class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         
         # O(nlogk) time O(k) space
-        # Use max heap
+        # Max heap
         
         maxHeap = []
         i = 0
         while i < k:
-            maxHeap.append([((points[i][0] ** 2) + (points[i][1] ** 2)) * -1, i])
+            x, y = points[i][0], points[i][1]
+            dist = (x ** 2) + (y ** 2)
+            maxHeap.append([dist * -1, x, y])
             i+=1
-        
+            
         heapq.heapify(maxHeap)
         
         while i < len(points):
-            currDist = ((points[i][0] ** 2) + (points[i][1] ** 2)) * -1
-            minDist, idx = maxHeap[0]
-            if currDist > minDist:
+            x, y = points[i][0], points[i][1]
+            dist = (x ** 2) + (y ** 2)
+            if dist * -1 > maxHeap[0][0]:
                 heapq.heappop(maxHeap)
-                heapq.heappush(maxHeap, [currDist, i])
+                heapq.heappush(maxHeap, [dist * -1, x, y])
             i+=1
-        
+                
         output = []
-        for dist, idx in maxHeap:
-            output.append(points[idx])
-    
-        return output 
+        while maxHeap:
+            dist, x, y = heapq.heappop(maxHeap)
+            output.append([x, y])
             
+        return output 
