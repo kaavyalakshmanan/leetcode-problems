@@ -1,14 +1,10 @@
 class Solution:
     def calculate(self, s: str) -> int:
         
-        # O(n) time O(n) space 
-        # Stack
+        # O(n) time O(n) space
         
         stack = []
         currDigit, currOp = 0, '+'
-        
-        def div(num1, num2):
-            return int(num1 / num2)
         
         for i, c in enumerate(s):
             if c.isdigit():
@@ -19,9 +15,9 @@ class Solution:
                 elif currOp == '-':
                     stack.append(-currDigit)
                 elif currOp == '*':
-                    stack[-1] *= currDigit
+                    stack[-1]*=currDigit
                 else:
-                    stack[-1] = div(stack[-1], currDigit)
+                    stack[-1] = int(stack[-1]/currDigit)
                 currOp = c
                 currDigit = 0
                     
