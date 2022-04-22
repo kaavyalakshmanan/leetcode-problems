@@ -1,35 +1,33 @@
 class Solution:
     def shortestPath(self, grid: List[List[int]], k: int) -> int:
         
-        # O(n*k) time O(n*k) space
+        # O(m*n) time O(m*n) space
+        # BFS
         
-        ROWS, COLS = len(grid), len(grid[0])
-        visit = set()
         q = collections.deque([(0, 0, 0)])
+        visit = set()
+        ROWS, COLS = len(grid), len(grid[0])
         pathLen = 0
-        directions = [(0, -1), (0, 1), (-1, 0), (1, 0)]
         
         while q:
             qLen = len(q)
-            
             for i in range(qLen):
-                x, y, numK = q.popleft()
-                visit.add((x, y))
-                
-                if x == ROWS-1 and y == COLS-1 and numK <= k:
+                row, col, numObst = q.popleft()
+                if row == ROWS-1 and col == COLS-1 and numObst <= 1:
                     return pathLen
+
+                directions = [(row+1, col), (row-1, col), (row, col+1), (row, col-1)]
+                visit.add((row, col))
                 for dr, dc in directions:
-                    r, c = x + dr, y + dc
-                    if r < 0 or r == ROWS or c < 0 or c == COLS:
+                    if dr < 0 or dr == ROWS or dc < 0 or dc == COLS or (dr, dc) in visit:
                         continue
-                    if (r,c) in visit:
-                        continue
-                    if grid[r][c] == 1:
-                        q.append((r, c, numK+1))
+                    if grid[dr][dc] == 1:
+                        q.append((dr, dc, numObst+1))
                     else:
-                        q.append((r, c, numK))
+                        q.append((dr, dc, numObst))
+                        
             pathLen+=1
             
-        
-      
         return -1
+                    
+            
