@@ -1,27 +1,32 @@
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
         
-        # O(n) time, O(n) space
-        # Use a stack
+        # O(n) time O(n) space
         
         stack = []
         
-        for i, c in enumerate(tokens):
-            if len(c) > 1 and c[0] == '-':
-                stack.append(-abs(int(c)))
-            elif c.isdigit():
+        for c in tokens:
+            if c.isdigit():
                 stack.append(int(c))
+            elif c[1:].isdigit():
+                
+                stack.append(int(c[1:]) * -1)
             else:
-                num2, num1 = stack.pop(), stack.pop()
+                second = stack.pop()
+                first = stack.pop()
                 if c == '+':
-                    stack.append(num1 + num2)
+                    stack.append(first + second)
                 elif c == '-':
-                    stack.append(num1 - num2)
+                    stack.append(first - second)
                 elif c == '*':
-                    stack.append(num1 * num2)
+                    stack.append(first * second)
                 else:
-                    stack.append(int(num1 / num2))
+                    stack.append(int(first / second))
                     
-        return stack[0]
-                    
+        res = 0
+        while stack:
+            res += stack.pop()
+            
+        return res
         
+                    
