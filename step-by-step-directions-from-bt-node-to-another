@@ -8,32 +8,34 @@ class Solution:
     def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
         
         # O(n) time O(n) space
+        # BFS
         
-        adj = defaultdict(list)
         q = collections.deque([root])
+        nodesMap = defaultdict(list)
         
-        while q:
+        while startValue not in nodesMap or destValue not in nodesMap:
             node = q.popleft()
             if node.left:
-                adj[node.left.val].append((node.val, 'U'))
-                adj[node.val].append((node.left.val, 'L'))
-                q.append((node.left))
+                nodesMap[node.val].append((node.left.val, 'L'))
+                nodesMap[node.left.val].append((node.val, 'U'))
+                q.append(node.left)
             if node.right:
-                adj[node.right.val].append((node.val, 'U'))
-                adj[node.val].append((node.right.val, 'R'))
-                q.append((node.right))
+                nodesMap[node.val].append((node.right.val, 'R'))
+                nodesMap[node.right.val].append((node.val, 'U'))
+                q.append(node.right)
                 
-        q.append((startValue, ""))
+        q = collections.deque([(startValue, '')])
         visit = set()
+        print(nodesMap)
         
         while q:
-            currVal, currPath = q.popleft()
-            visit.add(currVal)
-            if currVal == destValue:
+            val, currPath = q.popleft()
+            visit.add(val)
+            if val == destValue:
                 return currPath
-            for node, path in adj[currVal]:
-                if node not in visit:
-                    q.append((node, currPath+path))
-                
-                
+            for neigh, path in nodesMap[val]:
+                if neigh in visit:
+                    continue
+                q.append((neigh, currPath+path))
+        
         
