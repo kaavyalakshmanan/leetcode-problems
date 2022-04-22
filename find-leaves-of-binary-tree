@@ -8,6 +8,7 @@ class Solution:
     def findLeaves(self, root: Optional[TreeNode]) -> List[List[int]]:
         
         # O(n) time O(n) space
+        # DFS
         
         res = defaultdict(list)
         
@@ -19,6 +20,7 @@ class Solution:
             right = dfs(node.right, layer)
             
             layer = max(left, right)
+            
             res[layer].append(node.val)
             
             return layer+1
