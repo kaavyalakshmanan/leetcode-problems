@@ -2,17 +2,15 @@ class Twitter:
 
     def __init__(self):
         
-        # O(k) time O(1) space
+        # O(n) time O(n) space
         
-        self.followersMap = defaultdict(set)
-        self.tweetsMap = defaultdict(list)
-        
+        self.tweets = defaultdict(list)
+        self.users = defaultdict(set)
         self.time = 0
-        
 
     def postTweet(self, userId: int, tweetId: int) -> None:
         
-        self.tweetsMap[userId].append([self.time, tweetId])
+        self.tweets[userId].append([self.time, tweetId])
         self.time-=1
         
 
@@ -20,35 +18,35 @@ class Twitter:
         
         minHeap = []
         res = []
+        self.users[userId].add(userId)
         
-        self.followersMap[userId].add(userId)
-        
-        for followeeId in self.followersMap[userId]:
-            if followeeId in self.tweetsMap:
-                index = len(self.tweetsMap[followeeId])-1
-                time, tweetId = self.tweetsMap[followeeId][index]
-                heapq.heappush(minHeap, [time, tweetId, followeeId, index-1])
-            
-        while len(res) < 10 and minHeap:
-            time, tweetId, followeeId, index = heapq.heappop(minHeap)
-            res.append(tweetId)
-            
+        for followee in self.users[userId]:
+            if followee in self.tweets:
+                index = len(self.tweets[followee])-1
+                time, tweet = self.tweets[followee][index]
+                minHeap.append([time, tweet, followee, index-1])
+                
+        heapq.heapify(minHeap)
+                
+        while minHeap and len(res) < 10:
+            time, tweet, followee, index = heapq.heappop(minHeap)
+            res.append(tweet)
             if index >= 0:
-                time, tweetId = self.tweetsMap[followeeId][index]
-                heapq.heappush(minHeap, [time, tweetId, followeeId, index-1])
+                newTime, newTweet = self.tweets[followee][index]
+                heapq.heappush(minHeap, [newTime, newTweet, followee, index-1])
                 
         return res
-        
+         
 
     def follow(self, followerId: int, followeeId: int) -> None:
         
-        self.followersMap[followerId].add(followeeId)
+        self.users[followerId].add(followeeId)
         
 
     def unfollow(self, followerId: int, followeeId: int) -> None:
         
-        if followeeId in self.followersMap[followerId]:
-            self.followersMap[followerId].remove(followeeId)
+        if followeeId in self.users[followerId]:
+            self.users[followerId].remove(followeeId)
         
 
 
