@@ -1,0 +1,31 @@
+class Solution:
+    def romanToInt(self, s: str) -> int:
+
+        # O(n) time O(1) space
+        # Use a dict
+
+        romanDict = {
+           "I": 1,
+            "V": 5,
+            "X": 10,
+            "L": 50,
+            "C": 100,
+            "D": 500,
+            "M": 1000
+        }
+
+        ret = romanDict[s[len(s)-1]]
+        prev = ret
+
+        for i in range(len(s)-2, -1, -1):
+            curr = romanDict[s[i]]
+            # Case 1: larger comes after
+            if curr >= prev:
+                ret += curr
+            else:
+                ret-= curr
+            prev = curr
+
+        return ret
+
+
