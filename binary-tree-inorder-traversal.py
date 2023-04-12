@@ -6,18 +6,20 @@
 #         self.right = right
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        
+
+        # Inorder traversal: left, node, right
+        # Literally do that algo
         # O(n) time O(n) space
-        
-        output = []
-        
-        def inorderHelper(node):
+
+        res = []
+
+        def inorder(node):
             if not node:
                 return
             
-            inorderHelper(node.left)
-            output.append(node.val)
-            inorderHelper(node.right)
-            
-        inorderHelper(root)  
-        return output 
+            inorder(node.left)
+            res.append(node.val)
+            inorder(node.right)
+
+        inorder(root)
+        return res
