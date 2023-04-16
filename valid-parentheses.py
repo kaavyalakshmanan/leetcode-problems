@@ -1,16 +1,25 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        
+
         # O(n) time O(n) space
-        # Use stack
         
+        # Stack will keep track of open brackets seen so far
+        # We pop from stack when we see corresponding close bracket 
         stack = []
+
         for c in s:
-            if c == "(" or c == "{" or c == "[":
+            # Open bracket case
+            if c in {'(', '[', '{'}:
                 stack.append(c)
-            elif not stack or (c == ")" and stack[-1] != "(") or (c == "}" and stack[-1] != "{") or (c == "]" and stack[-1] != "["):
-                return False
+            # Close bracket case
             else:
+                # Haven't seen a corresponding open bracket
+                if len(stack) == 0:
+                    return False
+                # Mismatch case
+                if (c == ')' and stack[-1] != "(") or (c == ']' and stack[-1] != "[") or (c == '}' and stack[-1] != "{"):
+                    return False
+
                 stack.pop()
-            
-        return True if not stack else False
+
+        return len(stack) == 0
