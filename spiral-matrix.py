@@ -1,36 +1,49 @@
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+
+        # O(n*m) time O(1) space
         
-        # O(m*n) time O(1) space
-        output = []
-        left, right = 0, len(matrix[0])
-        top, bottom = 0, len(matrix)
+        res = []
+        i, j, ctr = 0, 0, 0
+        rows, cols = len(matrix), len(matrix[0])
+        total = rows * cols
+
+        while ctr < total:
+            # Keep going right
+            while j < cols and matrix[i][j] != "":
+                res.append(matrix[i][j])
+                matrix[i][j] = ""
+                j+=1
+                ctr+=1
+            j-=1
+            i+=1
+            # Keep going down
+            while i < rows and matrix[i][j] != "":
+                res.append(matrix[i][j])
+                matrix[i][j] = ""
+                i+=1
+                ctr+=1
+            i-=1
+            j-=1
+            # Keep going left
+            while j >= 0 and matrix[i][j] != "":
+                res.append(matrix[i][j])
+                matrix[i][j] = ""
+                j-=1
+                ctr+=1
+            j+=1
+            i-=1
+            # Keep going up
+            while i >= 0 and matrix[i][j] != "":
+                res.append(matrix[i][j])
+                matrix[i][j] = ""
+                i-=1
+                ctr+=1
+            i+=1
+            j+=1
         
-        while left < right and top < bottom:
-            
-            # Get every i in top row
-            for i in range(left, right):
-                output.append(matrix[top][i])
-            top+=1
-            
-            # Get every i in right column
-            for i in range(top, bottom):
-                output.append(matrix[i][right-1])
-            right-=1
-            
-            if not (left < right and top < bottom):
-                break
-                
-             # Get every i in bottom row
-            for i in range(right-1, left-1, -1):
-                output.append(matrix[bottom-1][i])
-            bottom-=1
-            
-            # Get every i in left column
-            for i in range(bottom-1, top-1, -1):
-                output.append(matrix[i][left])
-            left+=1
-            
-        return output 
-        
-          
+        return res
+
+
+           
+
