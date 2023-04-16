@@ -1,17 +1,20 @@
 class Solution:
     def maxArea(self, height: List[int]) -> int:
-        
+
         # O(n) time O(1) space
-        # 2 pointers
+        # Sliding window
         
-        output = 0
         left, right = 0, len(height)-1
+        res = 0
+
         while left < right:
-            currWidth = right - left
+            currWidth = right-left
             currHeight = min(height[left], height[right])
-            output = max(output, currWidth * currHeight)
+            res = max(res, currWidth * currHeight)
+
             if height[left] <= height[right]:
                 left+=1
             else:
                 right-=1
-        return output 
+
+        return res
