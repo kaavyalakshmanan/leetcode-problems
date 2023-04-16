@@ -6,53 +6,65 @@
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         
-        # O(nlogk) time O(n) space where k = length of lists and n = number of nodes in each list
-        
-        # Approach 1: Min heap
-        heap = [(l.val, i) for i, l in enumerate(lists) if l]
-        heapq.heapify(heap)
-        prehead = ptr = ListNode()
-        
-        while heap:
-            curr, idx = heapq.heappop(heap)
-            ptr.next = ListNode(curr)
-            ptr = ptr.next
-            
-            node = lists[idx] = lists[idx].next 
-            if node:
-                heapq.heappush(heap, (node.val, idx))
-                
-        return prehead.next 
-    
-        # Approach 2: Divide & Conquer
-        def mergeTwoLists(list1, list2):
-            prehead = curr = ListNode()
-            while list1 and list2:
-                val1 = list1.val 
-                val2 = list2.val 
-                if val1 <= val2:
-                    curr.next = list1
-                    list1 = list1.next 
-                else:
-                    curr.next = list2
-                    list2 = list2.next
-                curr = curr.next
+        # # Approach 1: Use a minHeap
+        # # O(nlogk) time O(n) space
 
-            if list1:
-                curr.next = list1
-            elif list2:
-                curr.next = list2
+        # minHeap = [(l.val, idx) for idx, l in enumerate(lists) if l]
+        # heapq.heapify(minHeap)
+        # p3 = head = ListNode()
 
-            return prehead.next 
+        # while len(minHeap) > 0:
+        #     curr, idx = heapq.heappop(minHeap)
+        #     p3.next = ListNode(curr)
+        #     p3 = p3.next 
+
+        #     node = lists[idx] = lists[idx].next 
+        #     if node:
+        #         heapq.heappush(minHeap, (node.val, idx))
+
         
+        # return head.next
+
+        # Approach 2: Reduce this problem to Merge 2 Sorted Lists
+        # O(nlogk) time O(1) space
+
         while len(lists) > 1:
-            mergedLists = []
+            res = []
             for i in range(0, len(lists), 2):
                 list1 = lists[i]
                 list2 = lists[i+1] if i+1 < len(lists) else None
-                
-                mergedLists.append(mergeTwoLists(list1, list2))
-            lists = mergedLists
+
+                mergedList = self.mergeTwoSortedLists(list1, list2)
+                res.append(mergedList)
+            lists = res
+
+        return lists[0] if len(lists) > 0 else None
+
+    def mergeTwoSortedLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+
+        p3 = head = ListNode()
+        p1, p2 = list1, list2
+
+        while p1 and p2:
+            val1 = p1.val 
+            val2 = p2.val
+
+            if val1 <= val2:
+                p3.next = p1
+                p1 = p1.next
+            else:
+                p3.next = p2
+                p2 = p2.next
+            p3 = p3.next
+
+        if p1:
+            p3.next = p1
+        if p2:
+            p3.next = p2
+
+        return head.next
+
+
+
+
             
-        return lists[0] if lists else None
-        
