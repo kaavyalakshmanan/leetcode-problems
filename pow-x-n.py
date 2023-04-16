@@ -1,24 +1,26 @@
 class Solution:
     def myPow(self, x: float, n: int) -> float:
-        
+
         # O(logn) time O(logn) space
-        # D&C
-        
-        def divideAndConquer(x, n):
-            if n == 0:
-                return 1
-            
-            res = divideAndConquer(x, n//2)
-            res *= res
-            
-            if n % 2:
-                res *= x
-            
- 
-            return res
-         
-        
+
+        # Base cases
         if x == 0:
             return 0
-        res = divideAndConquer(x, abs(n))
+        if n == 0:
+            return 1
+        
+        def divideAndConquer(x, n):
+            # Base case for exo n
+            if n == 1:
+                return x
+            
+            val = divideAndConquer(x, n//2)
+            val = val * val
+            # Odd case
+            if n % 2:
+                val *= x
+
+            return val
+
+        res = divideAndConquer(x,abs(n)) 
         return res if n > 0 else 1/res
