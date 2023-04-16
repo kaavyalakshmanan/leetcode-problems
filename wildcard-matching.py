@@ -1,30 +1,27 @@
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
+
+        # O(min(s,p)) time O(1) space
+        # Iterative Backtracking
         
-        # O(S*P) time, O(1) space
-        # Iterative backtracking 
-        
-        pIdx, sIdx = 0, 0
-        pLen, sLen = len(p), len(s)
         starIdx, sTempIdx = -1, -1
-        
-        while sIdx < sLen:
-            # Case 1: Match
-            if pIdx < pLen and p[pIdx] in { s[sIdx], '?' }:
-                sIdx+=1
-                pIdx+=1
-            # Case 2: No match, but '*'
-            elif pIdx < pLen and p[pIdx] == '*':
-                # Don't take '*'
-                starIdx, sTempIdx = pIdx, sIdx
-                pIdx+=1
-            # Case 3: No match and no '*'
-            elif starIdx == -1:
-                return False
-            # Case 4: No match, but there was a '*' at some point, so backtrack
+        i, j = 0, 0
+
+        while i < len(s):
+            # Match case
+            if j < len(p) and (s[i] == p[j] or p[j] == '?'):
+                i, j = i+1, j+1
+            # * case
+            elif j < len(p) and p[j] == '*':
+                starIdx = j
+                sTempIdx = i
+                # Dont take *
+                j+=1
+            elif starIdx != -1:
+                # Take *
+                j = starIdx
+                i = sTempIdx+1
             else:
-                pIdx, sIdx = starIdx+1, sTempIdx+1
-                sTempIdx = sIdx
-        
-        # Return True if remianing in p is all '*', False otherwise
-        return all(p[i] == '*' for i in range(pIdx, pLen))
+                return False
+
+        return all(p[x] == "*" for x in range(j, len(p)))
