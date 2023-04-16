@@ -1,10 +1,10 @@
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
-        
+
         # O(n*4^n) time O(n) space
         # Backtracking 
         
-        digitsToLetters = {
+        letterDict = {
             '2': ['a', 'b', 'c'],
             '3': ['d', 'e', 'f'],
             '4': ['g', 'h', 'i'],
@@ -14,19 +14,18 @@ class Solution:
             '8': ['t', 'u', 'v'],
             '9': ['w', 'x', 'y', 'z'],
         }
-        
-        def backtracking(idx, currLetters):
+
+        res = []
+
+        def backtracking(idx, currStr):
             if idx == len(digits):
-                output.append(currLetters)
+                res.append(currStr)
                 return
-            
-            for c in digitsToLetters[digits[idx]]:
-                backtracking(idx+1, currLetters+c)
-            
-        output = []
+
+            for letter in letterDict[digits[idx]]:
+                backtracking(idx+1, currStr+letter)
+
+
         if digits:
             backtracking(0, "")
-        return output
-            
-            
-        
+        return res
