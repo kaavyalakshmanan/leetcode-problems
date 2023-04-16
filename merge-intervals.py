@@ -1,16 +1,16 @@
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        
-        # O(nlogn) time O(n) space
-        
+
+        # O(nlogn) time O(n) space because sorting
+
         intervals.sort()
-        output = [intervals[0]]
-        
+        res = [intervals[0]]
+
         for start, end in intervals[1:]:
-            prevStart, prevEnd = output[-1]
+            prevStart, prevEnd = res[-1]
             if start >= prevStart and start <= prevEnd:
-                output[-1][1] = max(prevEnd,  end)
+                res[-1][1] = max(prevEnd, end)
             else:
-                output.append([start, end])
-        return output 
-        
+                res.append([start, end])
+
+        return res
