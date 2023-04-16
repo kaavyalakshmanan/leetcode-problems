@@ -1,22 +1,19 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        
+
         # O(n) time O(n) space
-        # Sliding window
+        # Use a hashmap
         
         charDict = {}
         left, right = 0, 0
-        length = 0
+        maxLen = 0
+
         while right < len(s):
-            currChar = s[right]
-            if currChar not in charDict:
-                length = max(length, right-left+1)
-            elif charDict.get(currChar) >= left:
-                left = charDict.get(currChar) + 1
-                length = max(length, right-left)
-            else:
-                length = max(length, right-left+1)
-            charDict[currChar] = right
+            if s[right] in charDict:
+                if charDict[s[right]] >= left:
+                    left = charDict[s[right]]+1
+            maxLen = max(maxLen, right-left+1)
+            charDict[s[right]] = right
             right+=1
-            
-        return length
+
+        return maxLen
