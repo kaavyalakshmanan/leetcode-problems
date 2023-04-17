@@ -1,18 +1,26 @@
 class Solution:
     def numDecodings(self, s: str) -> int:
-        
-        # O(n) time O(1) space
-        
-        second, third = 1 if s[-1] != "0" else 0, 1
-        for i in range(len(s)-2, -1, -1):
-            first = 0
-            if s[i] != "0":
-                currDigit = int(s[i:i+2])
-                if currDigit <= 26:
-                    first = second + third
-                else:
-                    first = second
-            second, third = first, second
-            
-        return second
-                
+
+        # O(n) tiem O(n) space
+        # Memoization
+
+        cache = { len(s): 1 }
+
+        def backtrack(idx):
+
+            if idx in cache:
+                return cache[idx]
+
+            if s[idx] == "0":
+                return 0
+
+            res = backtrack(idx+1)
+
+            if idx+1 < len(s) and (s[idx] == "1" or (s[idx] == "2" and s[idx+1] in "0123456")):
+                res+=backtrack(idx+2)
+
+            cache[idx] = res
+
+            return res
+
+        return backtrack(0)
