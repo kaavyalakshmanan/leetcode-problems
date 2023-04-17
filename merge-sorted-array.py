@@ -3,22 +3,20 @@ class Solution:
         """
         Do not return anything, modify nums1 in-place instead.
         """
+
+        # O(n) time O(1) space
+        # Pointers
         
-        # O(m+n) time O(1) space
-        
-        pos = (m+n)-1
-        ptr1, ptr2 = m-1, n-1
-        
-        while pos >= 0:
-            val1 = nums1[ptr1] if ptr1 >= 0 else -inf
-            val2 = nums2[ptr2] if ptr2 >= 0 else -inf
-            
-            if val1 > val2:
-                nums1[pos] = val1
-                ptr1 -= 1
+        p1, p2, curr = m-1, n-1, (m+n)-1
+        while p1 >= 0 or p2 >= 0:
+            val1 = nums1[p1] if p1 >= 0 else -inf
+            val2 = nums2[p2 ]if p2 >= 0 else -inf
+
+            if val2 > val1:
+                nums1[curr] = val2
+                p2-=1
             else:
-                nums1[pos] = val2
-                ptr2 -= 1
-            pos-=1
-            
-                
+                nums1[curr] = val1
+                p1-=1
+
+            curr-=1
