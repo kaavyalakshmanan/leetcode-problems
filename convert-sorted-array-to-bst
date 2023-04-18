@@ -1,0 +1,33 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+
+        # O(n) time O(logn) space because tree will be height balanced
+        # Algo is as follows:
+            # Choose the middle of nums as currNode, everything to left is left subtree, everything to right is right subtree
+            # recurse on left and right half
+            # Where mid (or currNode) is always middle of current subarray
+            # O(n) time because we see each node exactly once
+            # But O(logn) space because we end up constructing a height balanced tree
+
+        def recurse(left, right):
+
+            if right < left:
+                return None
+            
+            
+            mid = (right+left)//2
+
+            currNode = TreeNode(nums[mid])
+            currNode.left = recurse(left, mid-1)
+            currNode.right = recurse(mid+1, right)
+
+            return currNode
+
+        return recurse(0, len(nums)-1)
+
