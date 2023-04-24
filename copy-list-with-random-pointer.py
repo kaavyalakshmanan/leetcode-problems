@@ -9,24 +9,27 @@ class Node:
 
 class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        
+
+        # Use a hashmap to solve this problem
+
         # O(n) time O(n) space
-        
+
         nodes = {}
-        ptr1 = head
-        ptr2 = copyHead = Node(0, None, None)
-        
-        while ptr1:
-            ptr2.next = Node(ptr1.val, None, None)
-            ptr2 = ptr2.next 
-            nodes[ptr1] = ptr2
-            ptr1 = ptr1.next 
-            
-        ptr1 = head
-        while ptr1:
-            ptr2 = nodes[ptr1]
-            ptr2.next = nodes[ptr1.next] if ptr1.next else None
-            ptr2.random = nodes[ptr1.random] if ptr1.random else None
-            ptr1 = ptr1.next 
-            
-        return copyHead.next 
+        prehead = Node(0)
+        p1, p2 = head, prehead
+
+        while p1:
+            if p1 not in nodes:
+                p2.next = Node(p1.val)
+                nodes[p1] = p2.next
+            else:
+                p2.next = nodes[p1]
+            if p1.random:
+                if p1.random not in nodes:
+                    nodes[p1.random] = Node(p1.random.val)
+                nodes[p1].random = nodes[p1.random]
+            p1 = p1.next
+            p2 = p2.next
+
+        return prehead.next 
+
