@@ -5,53 +5,58 @@
 #         self.next = next
 class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        
-        # MergeSort --> divide and conquer 
-        # O(nlogn) time O(logn) space
-        
-        # Base case
+
+        # The problem description tells us to solve it in O(nlogn) which implies making use of a sorting algo like merge sort or quick sort
+        # O(nlogn) time O(n) space because recursion
+
+        # base case
         if not head or not head.next:
             return head
-        
-        # Split the list in half
-        # Left points to first list, right points to second list
-        left = head
-        right = self.getMid(left)
+
+        # split list into 2 halves
+        left, right = head, self.getMid(head)
         tmp = right.next
         right.next = None
         right = tmp
-        
-        # Recurse on both left and right halves of list
-        left = self.sortList(left)
-        right = self.sortList(right)
-        
-        # Merge left and right
-        return self.merge(left, right)
-    
-    def getMid(self, head):
-        slow, fast = head, head.next 
+
+        leftHalf = self.sortList(left)
+        rightHalf = self.sortList(right)
+
+        return self.mergeTwoSortedLists(leftHalf, rightHalf)
+
+    def getMid(self, head: Optional[ListNode]) -> Optional[ListNode]:
+
+        slow, fast = head, head.next
+
         while fast and fast.next:
-            fast = fast.next.next 
-            slow = slow.next 
+            slow = slow.next
+            fast = fast.next.next
+
         return slow
-    
-    # Merge two sorted linked lists
-    def merge(self, left, right):
-        dummy = ptr = ListNode()
-        while left or right:
-            leftVal, rightVal = left.val if left else inf, right.val if right else inf
-            if leftVal <= rightVal:
-                ptr.next = left
-                left = left.next if left else None
+
+    def mergeTwoSortedLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        p1, p2 = list1, list2
+        p3 = head = ListNode()
+
+        while p1 and p2:
+            if p1.val <= p2.val:
+                p3.next = p1
+                p1 = p1.next
             else:
-                ptr.next = right
-                right = right.next if right else None
-            ptr = ptr.next
-            
-        return dummy.next
+                p3.next = p2
+                p2 = p2.next
+            p3 = p3.next 
+
+        if p1:
+            p3.next = p1
+        if p2:
+            p3.next = p2
+
+        return head.next
+
         
-            
-            
-            
+
         
-        
+
+  
+
