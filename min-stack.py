@@ -1,34 +1,40 @@
 class MinStack:
-    
+
     # O(1) time O(n) space
+    # For this problem, we design our stack using a python stack, where push and pop and top are O(1) operations
+    # However getMin is where we have to be creative
+    # If every val we push to stack also contains the min so far (aka min of curr val and prev min), we can retrieve min in O(1) time
 
     def __init__(self):
+
         self.stack = []
-        self.minVal = inf
         
 
     def push(self, val: int) -> None:
+
         if self.stack:
-            prevVal, prevMin = self.stack[-1]
-            self.stack.append([val, min(prevVal, prevMin)])
+            prevMin = self.stack[-1][0]
+            self.stack.append([min(prevMin, val), val])
         else:
             self.stack.append([val, val])
-            self.minVal = val
-        self.minVal = min(self.minVal, val)
+        
 
     def pop(self) -> None:
-        prevVal, prevMin = self.stack.pop()
-        self.minVal = prevMin
-        
+
+        self.stack.pop()
         
 
     def top(self) -> int:
-        prevVal, prevMin = self.stack[-1]
-        return prevVal
+
+        return self.stack[-1][1]
+
         
 
     def getMin(self) -> int:
-        return self.minVal
+
+        return self.stack[-1][0]
+
+
         
 
 
