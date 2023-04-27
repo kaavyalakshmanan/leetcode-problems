@@ -1,12 +1,17 @@
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
-        
+
         # O(n) time O(n) space
-        # One pass hash
-        
-        numsSet = set()
+        # Use a hashmap
+
+        if len(nums) == 1:
+            return False
+
+        count = defaultdict(int)
+
         for num in nums:
-            if num in numsSet:
+            count[num]+=1
+            if count[num] == 2:
                 return True
-            numsSet.add(num)
+
         return False
