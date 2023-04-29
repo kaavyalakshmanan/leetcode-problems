@@ -1,0 +1,19 @@
+class Solution:
+    def leastBricks(self, wall: List[List[int]]) -> int:
+
+        # O(n*m) time O(n*m) space
+
+        numBricks = sum(wall[0])
+        count = defaultdict(int)
+        maxCount = 0
+
+        for i in range(len(wall)):
+            edgeCount = 0
+            for j in range(len(wall[i])-1):
+                edgeCount += wall[i][j]
+                count[edgeCount] += 1
+                maxCount = max(maxCount, count[edgeCount])
+
+        return len(wall) - maxCount
+
+        
