@@ -5,35 +5,38 @@
 #         self.next = next
 class Solution:
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        
+
         # O(n) time O(n) space
-        # Reverse second half of list 
-        
-        ptr1, ptr2 = head, head
+
         length = 0
-        
-        while ptr2:
+        curr = head
+
+        while curr:
             length+=1
-            ptr2 = ptr2.next 
+            curr = curr.next
         
-        mid = length//2
-        ptr2 = head
+        isOdd = False
+        if length % 2:
+            isOdd = True
+
+        length = length//2
+        curr = head
+        stack = []
+
+        while length > 0:
+            stack.append(curr.val)
+            curr = curr.next
+            length-=1
         
-        while mid > 0:
-            ptr2 = ptr2.next 
-            mid-=1
-            
-        ptr3 = ptr2.next 
-        ptr2.next = None
-        while ptr3:
-            temp = ptr3.next 
-            ptr3.next = ptr2
-            ptr2, ptr3 = ptr3, temp
-            
-        while ptr1 != ptr2 and ptr1 and ptr2:
-            if ptr1.val != ptr2.val:
+        if isOdd:
+            curr = curr.next
+
+        while curr:
+            if curr.val != stack[-1]:
                 return False
-            ptr1 = ptr1.next 
-            ptr2 = ptr2.next
-            
+            stack.pop()
+            curr = curr.next
+
         return True
+
+        
