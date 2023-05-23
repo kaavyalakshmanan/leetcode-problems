@@ -1,30 +1,27 @@
 class Solution:
     def compress(self, chars: List[str]) -> int:
-        
+
         # O(n) time O(1) space
-        
-        i = 0
-        j = 0
-        count = 1
-        
-        while i < len(chars):
-            while i+1 < len(chars) and chars[i] == chars[i+1]:
-                count+=1
-                i+=1
-            chars[j] = chars[i]
-            j+=1
+
+        left, right = 0, 0
+        while right < len(chars):
+            prevChar, prevIdx = chars[right], right
+            while right < len(chars) and chars[right] == prevChar:
+                right+=1
+            count = right - prevIdx
+            chars[left] = prevChar
+            left+=1
+            countStr = str(count)
+            digitRight = left + len(countStr)-1
             if count == 1:
-                i+=1
                 continue
-            else:
-                for c in str(count):
-                    if j < len(chars):
-                        chars[j] = c
-                    j+=1
-                count = 1
-                i+=1
+            while count > 0:
+                chars[digitRight] = str(count % 10)
+                count = count // 10
+                digitRight-=1
+                left+=1
+
+        return left
+
+
         
-        chars = chars[:j]
-        return len(chars)
-            
-            
