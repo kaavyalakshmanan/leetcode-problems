@@ -2,15 +2,15 @@ class Solution:
     def maxProfit(self, prices: List[int]) -> int:
 
         # O(n) time O(1) space
+        # Sliding window
 
         res = 0
-        sell = prices[-1]
+        currBuy = prices[0]
 
-        for i in range(len(prices)-2, -1, -1):
-            currProfit = sell - prices[i]
-            res = max(res, currProfit)
+        for i in range(1, len(prices)):
+            currSell = prices[i]
+            res = max(res, currSell - currBuy)
+            currBuy = min(currBuy, currSell)
 
-            sell = max(sell, prices[i])
-
-        return res if res > 0 else 0
-
+        return res
+        
