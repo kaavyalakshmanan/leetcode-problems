@@ -1,17 +1,27 @@
-# O(n) time O(1) space
-
 class Codec:
     def encode(self, strs: List[str]) -> str:
         """Encodes a list of strings to a single string.
         """
 
-        return "£".join(strs)
+        # O(n) time O(n) space
+        # Use array functions and special char
+
+        res = ""
+
+        for i, s in enumerate(strs):
+            res+=s
+            if i < len(strs)-1:
+                res+='π'
+
+        return res
+        
 
     def decode(self, s: str) -> List[str]:
         """Decodes a single string to a list of strings.
         """
 
-        return s.split("£")
+        res = s.split('π')
+        return res
         
 
 
