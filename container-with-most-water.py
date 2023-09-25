@@ -2,16 +2,14 @@ class Solution:
     def maxArea(self, height: List[int]) -> int:
 
         # O(n) time O(1) space
-        # Sliding window
+        # 2 pointers
         
         left, right = 0, len(height)-1
         res = 0
-
         while left < right:
-            currWidth = right-left
             currHeight = min(height[left], height[right])
-            res = max(res, currWidth * currHeight)
-
+            currWidth = right-left
+            res = max(res, currHeight * currWidth)
             if height[left] <= height[right]:
                 left+=1
             else:
