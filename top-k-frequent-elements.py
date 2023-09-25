@@ -2,28 +2,24 @@ class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
 
         # O(n) time O(n) space
+        # Bucket sort
 
+        bucket = [[] for i in range(len(nums))]
         count = defaultdict(int)
-        freq = [[] for i in range(len(nums)+1)]
 
-        for num in nums:
-            count[num]+=1
-
-        for key, val in count.items():
-            idx = count[key]-1
-            freq[idx].append(key)
+        for n in nums:
+            count[n]+=1
         
-        res = []
-        j = 0
+        for key, v in count.items():
+            bucket[v-1].append(key)
 
-        for i in range(len(freq)-1, -1, -1):
-            for n in freq[i]:
-                if j == k:
+        res = []
+        for i in range(len(bucket)-1, -1, -1):
+            arr = bucket[i]
+            for j in range(len(arr)):
+                if len(res) == k:
                     return res
-                res.append(n)
-                j+=1
+                res.append(arr[j])
 
         return res
-
-
         
