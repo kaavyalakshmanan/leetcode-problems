@@ -1,6 +1,6 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-
+        
         # O(n) time O(n) space
         # Bucket sort
 
@@ -9,9 +9,9 @@ class Solution:
 
         for n in nums:
             count[n]+=1
-        
-        for key, v in count.items():
-            bucket[v-1].append(key)
+
+        for key, val in count.items():
+            bucket[val-1].append(key)
 
         res = []
         for i in range(len(bucket)-1, -1, -1):
@@ -22,4 +22,3 @@ class Solution:
                 res.append(arr[j])
 
         return res
-        
