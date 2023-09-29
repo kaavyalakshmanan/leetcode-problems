@@ -4,14 +4,11 @@ class Codec:
         """
 
         # O(n) time O(n) space
-        # Use array functions and special char
 
         res = ""
-
         for i, s in enumerate(strs):
-            res+=s
-            if i < len(strs)-1:
-                res+='π'
+            res += s
+            res += "£"
 
         return res
         
@@ -20,8 +17,13 @@ class Codec:
         """Decodes a single string to a list of strings.
         """
 
-        res = s.split('π')
-        return res
+        # O(n) time O(n) space
+
+        res = s.split("£")
+        # if res[-1] == "":
+        #     res = res[:-1]
+
+        return res[:-1]
         
 
 
