@@ -1,26 +1,21 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-
-        # given a string consisting of uppercase english characters, return the length of the longest substring with the same character if we can make at most k changes
-        # the general idea: windowLength - count[mostFreqCharacter] <= k
-        # so lets make use of a count dict and sliding window technique
-
-        # O(n) time O(n) space
-
+        
         left, right = 0, 0
         count = defaultdict(int)
-        res, mostFreq = 0, 0
+        maxCount = 0
+        res, currLen = 0, 0
 
         while right < len(s):
             count[s[right]]+=1
-            mostFreq = max(mostFreq, count[s[right]])
-            currLen = right-left+1
-            if currLen - mostFreq <= k:
-                res = max(res, currLen)
+            maxCount = max(maxCount, count[s[right]])
+            if (right-left+1) - maxCount <= k:
+                res = max(res, right-left+1)
+                right+=1
             else:
-                count[s[left]]-=1
-                mostFreq = max(count.values())
-                left+=1
-            right+=1
+                while (right-left+1) - maxCount > k:
+                    count[s[left]]-=1
+                    left-=1
+                    maxCount = max(count.values())
 
         return res
