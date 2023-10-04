@@ -2,27 +2,25 @@ class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
 
         # O(n^2) time O(n) space
-        # Sort + reduce to 2sum
+        # Reeduce to Two Sum II
         
-        res = []
         nums.sort()
+        res = []
 
-        for i, a in enumerate(nums):
-            if i > 0 and a == nums[i-1]:
+        for i, num in enumerate(nums):
+            if i > 0 and num == nums[i-1]:
                 continue
-            left, right = i+1, len(nums)-1
-            while left < right:
-                threeSum = a + nums[left] + nums[right]
-                if threeSum > 0:
-                    right-=1
-                elif threeSum < 0:
-                    left+=1
-                    
+            j, k = i+1, len(nums)-1
+            while j < k:
+                threeSum = num + nums[j] + nums[k]
+                if threeSum < 0:
+                    j+=1
+                elif threeSum > 0:
+                    k-=1
                 else:
-                    res.append([a, nums[left], nums[right]])
-                    left+=1
-                    while left < right and nums[left] == nums[left-1]:
-                        left+=1
-
+                    res.append([num, nums[j], nums[k]])
+                    j+=1
+                    while j < k and nums[j] == nums[j-1]:
+                        j+=1
 
         return res
