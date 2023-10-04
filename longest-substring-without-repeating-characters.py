@@ -2,18 +2,23 @@ class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
 
         # O(n) time O(n) space
-        # Use a hashmap
+        # Sliding window
         
-        charDict = {}
+        res = 0
+        currLen = 0
         left, right = 0, 0
-        maxLen = 0
+        pos = {}
 
         while right < len(s):
-            if s[right] in charDict:
-                if charDict[s[right]] >= left:
-                    left = charDict[s[right]]+1
-            maxLen = max(maxLen, right-left+1)
-            charDict[s[right]] = right
+            if s[right] not in pos:
+                currLen+=1
+                pos[s[right]] = right
+            else:
+                res = max(res, currLen)
+                if pos[s[right]] >= left:
+                    left = pos[s[right]]+1
+                currLen = (right-left+1)
+                pos[s[right]] = right
             right+=1
 
-        return maxLen
+        return max(res, currLen)
