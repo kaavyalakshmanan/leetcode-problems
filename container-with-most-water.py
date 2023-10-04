@@ -6,10 +6,12 @@ class Solution:
         
         left, right = 0, len(height)-1
         res = 0
+
         while left < right:
             currHeight = min(height[left], height[right])
             currWidth = right-left
-            res = max(res, currHeight * currWidth)
+            res = max(res, (currWidth * currHeight))
+
             if height[left] <= height[right]:
                 left+=1
             else:
