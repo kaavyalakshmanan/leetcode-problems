@@ -3,14 +3,14 @@ class Solution:
 
         # O(n) time O(1) space
         # Sliding window
+        
+        res, right = 0, 1
+        minBuy = prices[0]
 
-        res = 0
-        currBuy = prices[0]
+        while right < len(prices):
+            res = max(res, prices[right] - minBuy)
+            minBuy = min(minBuy, prices[right])
+            right+=1
 
-        for i in range(1, len(prices)):
-            currSell = prices[i]
-            res = max(res, currSell - currBuy)
-            currBuy = min(currBuy, currSell)
 
         return res
-        
