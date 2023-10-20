@@ -1,26 +1,24 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
 
-        # Backtracking 
+        # O(n) time O(n) space
+        # Backstracking
         
         res = []
 
         def backtracking(numOpen, numClose, currStr):
-            # Base Case True
+
+            # base case
             if numOpen == n and numClose == n:
                 res.append(currStr)
                 return 
-            
-            # When do we put down open
+
+            # general case
             if numOpen < n:
                 backtracking(numOpen+1, numClose, currStr+"(")
-            
-            # When do we put down close
-            if numOpen > numClose:
+            if numClose < numOpen:
                 backtracking(numOpen, numClose+1, currStr+")")
 
-
-
-
         backtracking(0, 0, "")
+
         return res
