@@ -2,15 +2,13 @@ class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
 
         # O(n) time O(n) space
-        # Dict
-
-        numsDict = defaultdict(int)
+        # Use hash set
+        
+        numsSet = set()
         for num in nums:
-            numsDict[num]+=1
-
-        for k, v in numsDict.items():
-            if v >= 2:
+            if num not in numsSet:
+                numsSet.add(num)
+            else:
                 return True
 
         return False
-        
