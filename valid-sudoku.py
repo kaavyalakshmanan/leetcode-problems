@@ -1,24 +1,22 @@
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
 
-        # O(n*m) time O(n*m) space
-        # HashSet
-
+        # O(1) time O(1) space
+        # Use hash set
+        
         rowsSet, colsSet, subSet = defaultdict(set), defaultdict(set), defaultdict(set)
         rows, cols = len(board), len(board[0])
 
         for row in range(rows):
             for col in range(cols):
-                if board[row][col] == ".":
+                currVal = board[row][col]
+                if currVal == ".":
                     continue
-                currNum = int(board[row][col])
-                if currNum in rowsSet[row] or currNum in colsSet[col] or currNum in subSet[(row//3, col//3)]:
+                if currVal in rowsSet[row] or currVal in colsSet[col] or currVal in subSet[(row//3, col//3)]:
                     return False
-                rowsSet[row].add(currNum)
-                colsSet[col].add(currNum)
-                subSet[(row//3, col//3)].add(currNum)
+                rowsSet[row].add(currVal)
+                colsSet[col].add(currVal)
+                subSet[(row//3, col//3)].add(currVal)
 
         return True
-
-        
-        
+                
