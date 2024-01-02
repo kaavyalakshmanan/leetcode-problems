@@ -2,15 +2,14 @@ class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
 
         # O(n*m) time O(n*m) space
-        # Frequency count
-
+        # Use dict & char count
+        
         res = defaultdict(list)
 
-        for w in strs:
+        for s in strs:
             count = [0] * 26
-            for c in w:
+            for c in s:
                 count[ord(c) - ord('a')]+=1
-            res[tuple(count)].append(w)
+            res[tuple(count)].append(s)
 
         return res.values()
-        
