@@ -6,10 +6,9 @@ class Solution:
         
         left, right = 0, len(numbers)-1
         while left < right:
-            if numbers[left] + numbers[right] == target:
+            if numbers[right] + numbers[left] == target:
                 return [left+1, right+1]
-            if numbers[left] + numbers[right] < target:
-                left+=1
-            else:
+            elif numbers[right] + numbers[left] > target:
                 right-=1
-            
+            else:
+                left+=1
