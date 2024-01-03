@@ -2,19 +2,18 @@ class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
 
         # O(n) time O(n) space
-        # HashSet
+        # Use hashset
         
         numsSet = set(nums)
-        count = 0
+        longestStreak = 0
 
         for num in nums:
-            if num-1 in numsSet:
-                continue
-            j = num+1
-            currCount = 1
-            while j in numsSet:
-                j+=1
-                currCount+=1
-            count = max(count, currCount)
+            if num-1 not in numsSet:
+                currNum, currLongest = num, 0
+                while currNum in numsSet:
+                    currNum+=1
+                    currLongest+=1
 
-        return count
+                longestStreak = max(longestStreak, currLongest)
+
+        return longestStreak
