@@ -3,20 +3,18 @@ class Solution:
 
         # O(n) time O(1) space
         # 2 pointers
-
-        left, right = 0, len(s)-1
-
-        while left < right:
-            while left < right and not s[left].isalnum():
-                left+=1
-            while left < right and not s[right].isalnum():
-                right-=1
-            if left >= right:
-                return True
-            if s[left].lower() != s[right].lower():
-                return False
-            left+=1
-            right-=1
-
-        return True
         
+        left, right = 0, len(s)-1
+        while left < right:
+            if s[left].isalnum() and s[right].isalnum() and s[left].lower() == s[right].lower():
+                left+=1
+                right-=1
+            elif not s[left].isalnum() or not s[right].isalnum():
+                if not s[left].isalnum():
+                    left+=1
+                else:
+                    right-=1
+            else:
+                return False
+
+        return True 
