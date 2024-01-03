@@ -1,28 +1,20 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
-        
-        # Algo: 2 pointer
-        # keep track of maxLeft and maxRight
-        # current val = min(left, right)
-        # current amount trapped = min(maxLeft, maxRight) - current val
-        # move the pointer pointing to smaller val
 
         # O(n) time O(1) space
-
+        # 2 pointers
+        
         left, right = 0, len(height)-1
-        maxLeft, maxRight = height[left], height[right]
-        res = 0
-
+        res, prevHeight = 0, 0
         while left < right:
-            currentVal = min(height[left], height[right])
-            currentAmt = min(maxLeft, maxRight) - currentVal
-            if currentAmt > 0:
-                res += currentAmt
+            currHeight = min(height[left], height[right])
+            if prevHeight - currHeight > 0:
+                res += (prevHeight - currHeight)
+            prevHeight = max(prevHeight, currHeight)
+
             if height[left] <= height[right]:
                 left+=1
-                maxLeft = max(maxLeft, height[left])
             else:
                 right-=1
-                maxRight = max(maxRight, height[right])
 
         return res
