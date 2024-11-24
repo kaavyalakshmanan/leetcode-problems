@@ -2,10 +2,14 @@ class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
 
         # O(n) time O(n) space
-        # Dict
-        
-        numsDict = {}
+        # Hash map
+        # Note: "You may assume that each input would have exactly one solution" implies there are no duplicates
+
+        compDict = {}
         for i, num in enumerate(nums):
-            if (target - num) in numsDict:
-                return [numsDict[target-num], i]
-            numsDict[num] = i
+            comp = target-num
+            # case 1: We found match
+            if (comp) in compDict:
+                return [compDict[comp], i]
+            # case 2: no match
+            compDict[num] = i
