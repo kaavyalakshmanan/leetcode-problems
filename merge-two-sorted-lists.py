@@ -6,28 +6,26 @@
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
 
-        # O(max(m.n)) time O(1) space
-        # Pointers
+        # O(max((n+m))) time O(1) space
+        # 2 pointers
 
         p1, p2 = list1, list2
-        head = p3 = ListNode()
-
-        while p1 and p2:
-            val1 = p1.val 
-            val2 = p2.val 
-
+        head = ListNode()
+        curr = head
+        while p1 or p2:
+            val1 = p1.val if p1 else inf
+            val2 = p2.val if p2 else inf
             if val1 <= val2:
-                p3.next = p1
-                p1 = p1.next
+                nextPtr = p1.next
+                curr.next = p1
+                p1 = nextPtr
             else:
-                p3.next = p2
-                p2 = p2.next 
-            p3 = p3.next
-
-        if p1:
-            p3.next = p1
-        if p2:
-            p3.next = p2
+                nextPtr = p2.next
+                curr.next = p2
+                p2 = nextPtr
+            curr = curr.next
 
         return head.next
+
+        
         
